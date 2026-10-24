@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POKéMON Simulator</title>
+  <link rel="icon" href="v4.5.0/favicon.png">
+  <script>
+    // versions lists the site's folders, newest first, each with the line
+    // shown beside its button. A release adds its own at the top.
+    const versions = [
+      { tag: "v4.5.0", about: "the 2004 game, as Michael Madsen made it" },
+    ];
+    // original is the faithful port, the Original button's version.
+    const original = "v4.5.0";
+
+    // With one version there is nothing to choose: the page goes straight to it.
+    if (versions.length === 1) {
+      location.replace(versions[0].tag + "/");
+    }
+  </script>
+  <style>
+    :root {
+      --desk: #008080;
+      --face: #c0c0c0;
+      --light: #ffffff;
+      --light-2: #dfdfdf;
+      --shadow: #808080;
+      --dark: #0a0a0a;
+      --title: #000080;
+      --title-2: #1084d0;
+      --link: #000080;
+    }
+    html { height: 100%; }
+    body {
+      box-sizing: border-box;
+      display: flex;
+      min-height: 100%;
+      margin: 0;
+      padding: 16px;
+      align-items: center;
+      justify-content: center;
+      background: var(--desk);
+      color: #000;
+      font: 13px/1.4 "MS Sans Serif", "Microsoft Sans Serif", Tahoma, Geneva, sans-serif;
+    }
+    .window {
+      width: 100%;
+      max-width: 480px;
+      padding: 3px;
+      background: var(--face);
+      box-shadow: inset -1px -1px var(--dark), inset 1px 1px var(--light-2),
+        inset -2px -2px var(--shadow), inset 2px 2px var(--light);
+    }
+    .title {
+      margin: 0;
+      padding: 3px 5px;
+      background: linear-gradient(90deg, var(--title), var(--title-2));
+      color: #fff;
+      font-size: inherit;
+      font-weight: bold;
+    }
+    .content { padding: 12px 14px 14px; }
+    .content p { margin: 0; }
+    .choice {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 14px;
+      margin: 16px 0;
+      align-items: start;
+    }
+    .button {
+      min-width: 96px;
+      padding: 6px 12px;
+      background: var(--face);
+      color: #000;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: inset -1px -1px var(--dark), inset 1px 1px var(--light),
+        inset -2px -2px var(--shadow), inset 2px 2px var(--light-2);
+    }
+    .button:active {
+      padding: 7px 11px 5px 13px;
+      box-shadow: inset -1px -1px var(--light), inset 1px 1px var(--dark),
+        inset -2px -2px var(--light-2), inset 2px 2px var(--shadow);
+    }
+    .button:focus-visible {
+      outline: 1px dotted #000;
+      outline-offset: -5px;
+    }
+    .about { padding-top: 6px; }
+    .links { margin-top: 2px; }
+    a:not(.button) { color: var(--link); }
+    .footer { margin-top: 4px; }
+    @media (max-width: 400px) {
+      .choice { grid-template-columns: 1fr; }
+      .about { padding-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <noscript>POKéMON Simulator needs JavaScript to run.</noscript>
+  <main class="window" hidden>
+    <h1 class="title">POKéMON Simulator</h1>
+    <div class="content">
+      <p>Choose a version to play:</p>
+      <div id="choices"></div>
+      <p>Each keeps its own saves.</p>
+      <p class="footer">
+        <a href="https://github.com/jsperandio/pokemon-simulator-web#versions">All versions</a> ·
+        <a href="https://github.com/jsperandio/pokemon-simulator">Source code</a>
+      </p>
+    </div>
+  </main>
+  <script>
+    // link makes a link with the text given.
+    const link = (href, text, className) => {
+      const a = document.createElement("a");
+      a.href = href;
+      a.textContent = text;
+      if (className) {
+        a.className = className;
+      }
+      return a;
+    };
+
+    // choice adds a version's button, with its line and links beside it.
+    const choice = (caption, version, extra) => {
+      const row = document.createElement("div");
+      row.className = "choice";
+      const about = document.createElement("div");
+      about.className = "about";
+      about.append(version.tag + ": " + version.about);
+      const links = document.createElement("div");
+      links.className = "links";
+      links.append(link("https://github.com/jsperandio/pokemon-simulator/releases/tag/" + version.tag, "Release notes"));
+      for (const [href, text] of extra) {
+        links.append(" · ", link(href, text));
+      }
+      about.append(links);
+      row.append(link(version.tag + "/", caption, "button"), about);
+      document.getElementById("choices").append(row);
+    };
+
+    if (versions.length > 1) {
+      choice("Original", versions.find((v) => v.tag === original), [
+        ["https://birdiesoft.dk/software.php?id=2", "BirdieSoft's page"],
+      ]);
+      choice("Latest", versions[0], []);
+      document.querySelector(".window").hidden = false;
+    }
+  </script>
+</body>
+</html>

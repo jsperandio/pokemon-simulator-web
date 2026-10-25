@@ -4,15 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>POKéMON Simulator</title>
-  <link rel="icon" href="v4.5.0/favicon.png">
+  <link rel="icon" href="v4.5.1/favicon.png">
   <script>
-    // versions lists the site's folders, newest first, each with the line
-    // shown beside its button. A release adds its own at the top.
+    // versions lists the versions the site plays, newest first, each with the
+    // line shown beside its button. A release adds its own at the top. A fix
+    // release takes the place of the version it fixes, whose folder then sends
+    // its players on.
     const versions = [
-      { tag: "v4.5.0", about: "the 2004 game, as Michael Madsen made it" },
+      { tag: "v4.5.1", about: "the 2004 game, as Michael Madsen made it" },
     ];
     // original is the faithful port, the Original button's version.
-    const original = "v4.5.0";
+    const original = "v4.5.1";
 
     // With one version there is nothing to choose: the page goes straight to it.
     if (versions.length === 1) {
